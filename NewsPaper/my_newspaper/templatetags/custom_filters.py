@@ -19,3 +19,4 @@ def censor(value: str):
 def format_time(value):
    format_string = '%d %b %Y'
    return value.strftime(format_string)
+

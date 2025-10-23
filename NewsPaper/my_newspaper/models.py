@@ -1,10 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 # Create your models here.
 class Author(models.Model):
     rating_user = models.IntegerField(default=0)
     usr = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.usr.username
 
     def update_rating(self):
         post_list = Post.objects.filter(author = self.id).all()
@@ -23,6 +27,9 @@ class Author(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=100, unique = True)
+
+    def __str__(self):
+        return self.name
 
 class Post(models.Model):
     news = 'NW'
@@ -49,6 +56,10 @@ class Post(models.Model):
             return self.text_post
         else:
             return self.text_post[0:123] + '...'
+
+    def get_absolute_url(self):
+        return reverse('post_detail', args=[str(self.id)])
+
 
 
 class PostCategory(models.Model):
