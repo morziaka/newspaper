@@ -7,6 +7,7 @@ from .models import Post
 from .filters import PostFilter
 from .forms import PostForm
 from .utils import *
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 
 class PostsList(ListView):
@@ -45,10 +46,11 @@ class PostDetail(DetailView):
     template_name = 'post.html'
     context_object_name = 'post'
 
-class PostCreate(CreateView):
+class PostCreate(PermissionRequiredMixin, CreateView):
     form_class = PostForm
     model = Post
     template_name = 'post_create_or_update.html'
+    permission_required = 'my_newspaper.add_post'
 
     def form_valid(self, form):
         post = form.save(commit=False)
@@ -64,20 +66,22 @@ class PostCreate(CreateView):
 
 
 
-class PostUpdate(UpdateView):
+class PostUpdate(PermissionRequiredMixin, UpdateView):
     form_class = PostForm
     model = Post
     template_name = 'post_create_or_update.html'
+    permission_required = 'my_newspaper.change_post'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         path_create = reverse_lazy('news_update')
         return create_or_edit(context, self.request.path)
 
-class PostDelete(DeleteView):
+class PostDelete(PermissionRequiredMixin, DeleteView):
     model = Post
     template_name = 'post_delete.html'
     success_url = reverse_lazy('post_list')
+    permission_required = 'my_newspaper.delete_post'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
