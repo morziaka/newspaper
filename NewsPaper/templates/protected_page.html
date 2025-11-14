@@ -1,0 +1,15 @@
+{% extends 'flatpages/default.html' %}
+{% load custom_filters %}
+{% load custom_tags %}
+
+
+{% block title%}
+{{create_or_edit}}
+{% endblock title %}}
+
+{% block content %}
+<h1>{{create_or_edit}}</h1>
+<hr>
+Нужно авторизоваться
+</form>
+{% endblock content %}
