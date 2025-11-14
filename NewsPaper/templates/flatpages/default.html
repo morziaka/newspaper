@@ -37,7 +37,7 @@
                    <a class="nav-link" href="/search/">Поиск</a>
                 </li>
 
-               {% if perms.news.add_post %}
+               {% if is_author %}
                <li class="nav-item">
                    <a class="nav-link" href="/news/create/">Новость +</a>
                </li>
