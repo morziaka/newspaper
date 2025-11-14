@@ -54,6 +54,7 @@ class PostCreate(PermissionRequiredMixin, CreateView):
 
     def form_valid(self, form):
         post = form.save(commit=False)
+        post.author = self.request.user.author
         path = self.request.path
         if 'articles' in str(path):
             post.post_types = 'AR'
