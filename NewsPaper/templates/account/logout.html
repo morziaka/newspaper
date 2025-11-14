@@ -1,0 +1,17 @@
+{% extends "account/base_manage.html" %}
+{% load allauth i18n %}
+{% block head_title %}
+    {% trans "Sign Out" %}
+{% endblock head_title %}
+{% block content %}
+    <div class = "container mt-5 justify-content-center">
+<h4>Вы действительно хотите выйти из системы?</h4>
+
+<form action = "{% url 'logout' %}" method = "post" class = "filter-form">
+    {% csrf_token %}
+
+    <input class = "btn btn-success" type = "submit" value = "Подтвердить">
+</form>
+
+</div>
+{% endblock content %}
