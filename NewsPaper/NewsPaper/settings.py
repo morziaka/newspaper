@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'my_newspaper',
     'django_filters',
     'sign',
+    'django_apscheduler'
 ]
 
 MIDDLEWARE = [
@@ -175,3 +176,19 @@ SOCIALACCOUNT_PROVIDERS = {
 
 
 ACCOUNT_FORMS = {'signup': 'sign.forms.MyCustomSignUpForm'}
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_USE_SSL = True
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER + '@yandex.ru'
+
+SITE_URL = "http://127.0.0.1:8000"
+
+# формат даты
+APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
+# если задача не выполняется за 25 секунд, то она автоматически снимается
+APSCHEDULER_RUN_NOW_TIMEOUT = 25  # Seconds
