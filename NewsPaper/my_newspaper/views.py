@@ -1,13 +1,16 @@
 from datetime import datetime
-from django.shortcuts import render
+
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django_filters.views import FilterView
-from .models import Post
+from .models import Post, Category
 from .filters import PostFilter
 from .forms import PostForm
 from .utils import *
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+
 
 
 class PostsList(ListView):
@@ -45,6 +48,8 @@ class PostDetail(DetailView):
     model = Post
     template_name = 'post.html'
     context_object_name = 'post'
+
+
 
 class PostCreate(PermissionRequiredMixin, CreateView):
     form_class = PostForm
@@ -88,3 +93,19 @@ class PostDelete(PermissionRequiredMixin, DeleteView):
         context = super().get_context_data(**kwargs)
         return create_or_edit(context, self.request.path)
 
+class CategoryListView(LoginRequiredMixin, ListView):
+    model = Category
+    template_name = 'category_list.html'
+    context_object_name = 'categories'
+
+@login_required
+def subscribe (request, pk):
+    category = Category.objects.get(pk=pk)
+    category.subscribers.add(request.user)
+    return redirect(request.META.get('HTTP_REFERER'))
+
+@login_required
+def unsubscribe (request, pk):
+    category = Category.objects.get(pk=pk)
+    category.subscribers.remove(request.user)
+    return redirect(request.META.get('HTTP_REFERER'))
