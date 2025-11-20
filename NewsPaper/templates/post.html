@@ -11,5 +11,16 @@ Post
 <h1>{{ post.title|censor }}</h1>
 <p><i>{{post.author.usr.username}}</i></p>
 <p>{{post.time_post|format_time}}</p>
-<p>{{post.text_post|censor}}</p>
+<p>{{post.text_post|censor}}</p><br>
+<h3>Категории данной публикации:</h3>
+{% for category in post.categories.all %}
+<p>{{ category.name }}
+    {% if user in category.subscribers.all %}
+    <a href = "{% url 'unsubscribe' category.id %}" class = "btn btn-outline-danger btn-sm mt-2">Отписаться</a></p>
+    {% else %}
+    <a href = "{% url 'subscribe' category.id %}" class = "btn btn-outline-primary btn-sm mt-2">Подписаться</a></p>
+    {% endif %}
+{% endfor %}
+<p> <a href="{% url 'category_list' %}">Подписка на другие категории </p>
+
 {% endblock content %}

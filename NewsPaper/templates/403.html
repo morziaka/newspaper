@@ -5,7 +5,11 @@
 {% endblock title %}}
 
 {% block content %}
-<h1>{{create_or_edit}}</h1>
-<hr>
-У вас нет прав для просмотра этой страницы
+    {% if perms.my_newspaper.add_post %}
+        <br>
+        <h1>Вы не можете размещать более 3 постов в сутки</h1>
+    {% else %}
+        <br>
+        <h1>У вас нет прав для просмотра этой страницы</h1>
+    {% endif %}
 {% endblock content %}
