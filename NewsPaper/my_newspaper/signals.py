@@ -29,14 +29,14 @@ def newpost_notification(sender, instance, action, **kwargs):
             for user in subscribers:
                 if user.email and user.email not in emails:
                     html_content = (
-                        f'<p>Привет, {user.username}! На Новостном портале новая публикация "{instance.title}".</p>'
+                        f'<p>Привет, {user.username}! На Новостном портале новая публикация "{instance.title}" в категориях: {", ".join(cat.name for cat in instance.categories.all())}. </p>'
                         f'<p>Краткое содержание: {instance.Preview()}</p>'
                         f'<p>Полный текст публикации <a href = "{settings.SITE_URL}/posts/{instance.id}">по этой ссылке</a></p>'
                     )
                     send_mail(
                         subject=f'Новая публикация на Новостном портале',
                         message = (
-                        f'Привет, {user.username}! На Новостном портале новая публикация "{instance.title}".'
+                        f'Привет, {user.username}! На Новостном портале новая публикация "{instance.title}" в категориях: {", ".join(cat.name for cat in instance.categories.all())}. \n'
                         f'Краткое содержание: {instance.Preview()}.'
                         f'Полный текст публикации <a href = "{settings.SITE_URL}/posts/{instance.id}">по этой ссылке</a>'
                         ),
