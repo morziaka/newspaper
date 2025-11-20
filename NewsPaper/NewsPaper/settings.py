@@ -177,7 +177,7 @@ SOCIALACCOUNT_PROVIDERS = {
 
 ACCOUNT_FORMS = {'signup': 'sign.forms.MyCustomSignUpForm'}
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
@@ -191,4 +191,5 @@ SITE_URL = "http://127.0.0.1:8000"
 # формат даты
 APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
 # если задача не выполняется за 25 секунд, то она автоматически снимается
+
 APSCHEDULER_RUN_NOW_TIMEOUT = 25  # Seconds
