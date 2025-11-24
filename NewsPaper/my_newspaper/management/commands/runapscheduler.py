@@ -26,7 +26,6 @@ def weekly_mailing():
         text = ''
         for post in posts:
             post_categories = post.categories.all()
-            text = ''
             for category in post_categories:
                 if subscriber.email and category in subscriber.categories.all():
                     queryset = posts.filter(categories = category).values("title", "id")
@@ -39,7 +38,7 @@ def weekly_mailing():
                 message= (
                     f'Привет, {subscriber.username}! Ознакомьтесь с новинками за неделю по вашим подпискам. \n'
                     f'Список статей: \n {text}'
-                    ),
+                ),
                 from_email=settings.DEFAULT_FROM_EMAIL,
                 recipient_list=[subscriber.email],
                 fail_silently=True
@@ -61,7 +60,7 @@ class Command(BaseCommand):
         # добавляем работу нашему задачнику
         scheduler.add_job(
             weekly_mailing,
-            trigger=CronTrigger(week="*/1"),
+            trigger=CronTrigger(second="*/30"),
             id = "weekly_mailing",
             max_instances = 1,
             replace_existing = True,
