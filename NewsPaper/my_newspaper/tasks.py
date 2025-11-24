@@ -22,7 +22,6 @@ def subscribers_notification_weekly():
         text = ''
         for post in posts:
             post_categories = post.categories.all()
-            text = ''
             for category in post_categories:
                 if subscriber.email and category in subscriber.categories.all():
                     queryset = posts.filter(categories=category).values("title", "id")
