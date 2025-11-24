@@ -7,6 +7,7 @@ from django.dispatch import receiver
 from django.db.models.signals import m2m_changed, pre_save, post_save
 from django.utils import timezone
 from django.core.exceptions import PermissionDenied
+from .tasks import subscribers_notification_task
 
 from .models import Category, Post, PostCategory
 
@@ -33,19 +34,19 @@ def newpost_notification(sender, instance, action, **kwargs):
                         f'<p>Краткое содержание: {instance.Preview()}</p>'
                         f'<p>Полный текст публикации <a href = "{settings.SITE_URL}/posts/{instance.id}">по этой ссылке</a></p>'
                     )
-                    send_mail(
-                        subject=f'Новая публикация на Новостном портале',
-                        message = (
+                    params = {
+                        'subject': 'Новая публикация на Новостном портале',
+                        'message':
                         f'Привет, {user.username}! На Новостном портале новая публикация "{instance.title}" в категориях: {", ".join(cat.name for cat in instance.categories.all())}. \n'
                         f'Краткое содержание: {instance.Preview()}.'
-                        f'Полный текст публикации <a href = "{settings.SITE_URL}/posts/{instance.id}">по этой ссылке</a>'
-                        ),
-                        html_message = html_content,
-                        from_email=settings.DEFAULT_FROM_EMAIL,
-                        recipient_list=[user.email],
-                        fail_silently = True
-                    )
+                        f'Полный текст публикации <a href = "{settings.SITE_URL}/posts/{instance.id}">по этой ссылке</a>',
+                        'html_message' : html_content,
+                        'from_email': settings.DEFAULT_FROM_EMAIL,
+                        'recipient_list' : [user.email],
+                        'fail_silently' : True
+                    }
                     emails.append(user.email)
+                    subscribers_notification_task.delay(**params)
 
 
 @receiver(m2m_changed, sender = Category.subscribers.through)
