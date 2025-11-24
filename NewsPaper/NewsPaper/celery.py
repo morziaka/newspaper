@@ -16,7 +16,6 @@ app.conf.update(
 app.conf.beat_schedule = {
     'weekly-mailing' : {
         'task': 'my_newspaper.tasks.subscribers_notification_weekly',
-        'schedule': 30,
-
+        'schedule': crontab(hour = 8, minute=0, day_of_week='mon'),
         }
 }
