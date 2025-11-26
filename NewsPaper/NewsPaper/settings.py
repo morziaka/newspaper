@@ -226,11 +226,8 @@ LOGGING = {
             'format': '{asctime} - {levelname} - {pathname} / {exc_info} : {message}',
             'style': '{',
         },
-        'security': {
-            'format': '{asctime} - {levelname} - {module} : {message}',
-            'style': '{',
-        },
     },
+
     'filters': {
         'require_debug_true': {
             '()': 'django.utils.log.RequireDebugTrue',
