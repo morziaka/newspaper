@@ -243,13 +243,13 @@ LOGGING = {
             'filters': ['require_debug_false'],
             'class': 'logging.FileHandler',
             'filename': 'general.log',
-            'formatter': 'standard'
+            'formatter': 'standard',
         },
         'errors': {
             'level': 'ERROR',
             'class': 'logging.FileHandler',
             'filename': 'errors.log',
-            'formatter': 'forerror'
+            'formatter': 'forerror',
         },
         'console': {
             'level': 'DEBUG',
@@ -267,7 +267,7 @@ LOGGING = {
             'level': 'INFO',
             'class': 'logging.FileHandler',
             'filename': 'security.log',
-            'formatter': 'forwarning',
+            'formatter': 'forinfo',
         },
     },
     'loggers': {
